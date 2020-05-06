@@ -1,0 +1,24 @@
+PODS:
+  - FacePackage (0.0.1):
+    - Masonry
+  - Masonry (1.1.0)
+
+DEPENDENCIES:
+  - FacePackage (from `../FacePackage.podspec`)
+  - Masonry
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Masonry
+
+EXTERNAL SOURCES:
+  FacePackage:
+    :path: "../FacePackage.podspec"
+
+SPEC CHECKSUMS:
+  FacePackage: 5b112a8ddaf7503441214cc26fa0d52dbb78033d
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+
+PODFILE CHECKSUM: 9e5cd4bc1d6030e180c729db1f1f5273dc7846f5
+
+COCOAPODS: 1.5.3
