@@ -10,5 +10,9 @@
 #import "LZFaceModel.h"
 
 @implementation LZFaceModel
-
+- (void)setIsSelect:(BOOL)isSelect
+{
+    _isSelect = NO;
+    _isSelect = isSelect;
+}
 @end

@@ -68,11 +68,11 @@
     NSUInteger y;
     //第一个section3行8列 其余的2行4列
     if ([self getCurFaceModelWithSection:indexPath.section] == LZFaceType_Default) {
-        self.rowCount = 3;
-        self.itemCountPerRow = 8;
+        self.rowCount = [LZFacePackageConfiguration shareInstance].defaultMaxRow;
+        self.itemCountPerRow = [LZFacePackageConfiguration shareInstance].defaultMaxCount;
     }else {
-        self.rowCount = 2;
-        self.itemCountPerRow = 4;
+        self.rowCount = [LZFacePackageConfiguration shareInstance].imageMaxRow;
+        self.itemCountPerRow = [LZFacePackageConfiguration shareInstance].imageMaxCount;
     }
     
     [self targetPositionWithItem:item resultX:&x resultY:&y];

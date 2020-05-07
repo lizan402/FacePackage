@@ -71,7 +71,7 @@
     [self.facePackageBoard mas_makeConstraints:^(MASConstraintMaker *make) {
         CGFloat bottom = 0.0f;
         if (@available(iOS 11.0, *)) {
-            bottom =  [UIApplication sharedApplication].keyWindow.safeAreaInsets.bottom ;
+            bottom =  [UIApplication sharedApplication].keyWindow.safeAreaInsets.bottom;
         }
         make.bottom.equalTo(self.view).offset(-bottom);
         make.left.right.equalTo(self.view);
@@ -125,10 +125,12 @@
 - (LZFacePackageBoard *)facePackageBoard
 {
     if (!_facePackageBoard) {
-        // 可以在LZFacePackageConfiguration 设置其他属性
-        [LZFacePackageConfiguration shareInstance].contentSize = CGSizeMake(KScreenWidth, 220);
+        // 可以在LZFacePackageConfiguration 设置其他属性,此config为单例。
+        LZFacePackageConfiguration *facePackageConfig = [LZFacePackageConfiguration shareInstance];
+        facePackageConfig.contentSize = CGSizeMake(KScreenWidth, 220);
+        facePackageConfig.defaultMaxRow = 6;
+        facePackageConfig.imageMaxCount = 4;
         _facePackageBoard = [[LZFacePackageBoard alloc] initWithDelegate:self];
-//        _facePackageBoard.backgroundColor = [UIColor redColor];
     }
     return _facePackageBoard;
 }
@@ -159,5 +161,29 @@
     NSLog(@"didSelectWithFaceModel ==emojiName %@ --emojiDescription- %@ =---path--%@",faceModel.emojiName,faceModel.emojiDescription,faceModel.emojiImg);
 }
 
+- (UIButton *)leftButtonOnSegmentView{
+    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [leftButton setTitle:@"+" forState:UIControlStateNormal];
+    leftButton.backgroundColor = [UIColor blueColor];
+    [leftButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [leftButton addTarget:self action:@selector(onClickLeftButtonEvent) forControlEvents:UIControlEventTouchUpInside];
+    return leftButton;
+}
 
+- (UIButton *)rightButtonOnSegmentView{
+    UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectZero];
+   [rightButton setTitle:@"发送" forState:UIControlStateNormal];
+   rightButton.backgroundColor = [UIColor redColor];
+   [rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+   [rightButton addTarget:self action:@selector(onClickRightButtonEvent) forControlEvents:UIControlEventTouchUpInside];
+  return rightButton;
+}
+#pragma mark - selector
+- (void)onClickLeftButtonEvent{
+    NSLog(@"左边被点击");
+}
+
+- (void)onClickRightButtonEvent{
+    NSLog(@"右边被点击");
+}
 @end

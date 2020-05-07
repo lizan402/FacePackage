@@ -7,16 +7,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8104DEBB-F924-467C-B9E8-1B0F47D2A06A"
-            shouldBeEnabled = "Yes"
+            uuid = "F277ACF9-C70B-47FF-9D27-68B541B9D111"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../FacePackage/Classes/LZFacePackageBoard.m"
+            filePath = "FacePackageDemo/ViewContoller/LZFaceViewModel.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "-allItemOfEmojiContentForClassesIndex:"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "-loadReource"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7FE25420-63A6-47F9-A170-98C21A1585CD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../FacePackage/Classes/LZTabBarSegmentView.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "-updateSelectFaceModelWithIndex:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0136C1A7-0E56-487C-A8AC-717760CCA73C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../FacePackage/Classes/LZTabBarSegmentView.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "-updateSelectFaceModelWithIndex:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -31,8 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
 // 选中表元素
 - (void)didSelectWithFaceModel:(LZFaceModel *)faceModel;
 
-//返回两个view的
-
+//返回两个自定义的view
+- (UIButton *)leftButtonOnSegmentView;
+- (UIButton *)rightButtonOnSegmentView;
 @end
 
 @interface LZFacePackageBoard : UIView
@@ -45,3 +46,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+

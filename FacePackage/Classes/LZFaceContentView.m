@@ -30,7 +30,7 @@
 @property (nonatomic, strong) LZEmojiPreviewView *emojiPreview;
 @property (nonatomic, strong) LZEmojiPreviewImageView *emojiImagePreview;
 @property (nonatomic, strong) NSTimer *deleteEmojiTimer;
-
+@property (nonatomic, strong) NSMutableArray *recentEmojis;
 @end
 
 @implementation LZFaceContentView
@@ -45,6 +45,7 @@
         longPress.minimumPressDuration = 0.2;
         
         [self.collectionView addGestureRecognizer:longPress];
+        self.recentEmojis = [NSMutableArray array];
     }
     return self;
 }
@@ -76,7 +77,7 @@
         _collectionView.clipsToBounds = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
-        _collectionView.backgroundColor = [UIColor grayColor];
+        _collectionView.backgroundColor = [UIColor whiteColor];
         [_collectionView registerClass:[LZFaceContentCell class] forCellWithReuseIdentifier:NSStringFromClass([LZFaceContentCell class])];
     }
     return _collectionView;
@@ -160,13 +161,19 @@
         cell.faceModel = faceModel;
     } else {
         //第一个section最后一个显示删除
-             NSInteger count = [self maxCountPerRowWithSection:0] * [self maxRowWithSection:0];
-             if (indexPath.section == 0 && allItemArr.count%count > 0 && indexPath.item == count*(ceilf((CGFloat)allItemArr.count/count)) - 1) {
-                 LZFaceModel *faceModel =  [[LZFaceModel alloc] init];
-                 cell.faceModel = faceModel;
-             }else {
-                 cell.faceModel = nil;
-             }
+        NSInteger count = [self maxCountPerRowWithSection:indexPath.section] * [self maxRowWithSection:indexPath.section];
+        if ([self  getCurFaceModelWithSection:indexPath.section] == LZFaceType_Default && allItemArr.count  % count > 0 && indexPath.item == count*(ceilf((CGFloat)allItemArr.count/count)) - 1) {
+             LZFaceModel *faceModel =  [[LZFaceModel alloc] init];
+             cell.faceModel = faceModel;
+             [cell.emojiImageView setImage:[UIImage imageNamed:@"wb_emoji_keyboard_backspace_icon"]];
+             cell.emojiLabel.text = @"delete";
+             [cell.emojiImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.width.height.mas_equalTo(30);
+                make.center.equalTo(cell.contentView);
+             }];
+         }else {
+             cell.faceModel = nil;
+         }
     }
 
     return cell;
@@ -185,11 +192,11 @@
     LZFaceContentCell *cell = (LZFaceContentCell *)[collectionView cellForItemAtIndexPath:indexPath];
     
     if (cell.faceModel) {
+        NSInteger maxRow = [self maxRowWithSection:indexPath.section];
+        NSInteger maxCountPerRow = [self maxCountPerRowWithSection:indexPath.section];
+
         if ([self.delegate respondsToSelector:@selector(didSelectWithIndexPath:faceModel:isDelete:)]) {
             BOOL isDelete = NO;
-            NSInteger maxRow = [self maxRowWithSection:indexPath.section];
-            NSInteger maxCountPerRow = [self maxCountPerRowWithSection:indexPath.section];
-
             if ((indexPath.item + 1) %(maxRow * maxCountPerRow) == 0 && indexPath.item != 0 && indexPath.section == 0) {
                 isDelete = YES;
             }else {
@@ -200,10 +207,18 @@
             
             [self.delegate didSelectWithIndexPath:indexPath faceModel:cell.faceModel isDelete:isDelete];
         }
+        
+        if(cell.faceModel.faceType == LZFaceType_Default){
+            if(self.recentEmojis.count > maxRow*maxCountPerRow - 1){
+                [self.recentEmojis removeLastObject];
+                [self.recentEmojis insertObject:cell.faceModel atIndex:0];
+            }else{
+                [self.recentEmojis insertObject:cell.faceModel atIndex:0];
+            }
+            [collectionView reloadData];
+        }
     }
 }
-
-
 
 - (void)scrollToSection:(NSInteger)section {
     

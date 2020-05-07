@@ -26,7 +26,8 @@
     if (self) {
         [self.contentView addSubview:self.selectView];
         [self.selectView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.contentView);
+            make.left.top.equalTo(self.contentView).offset(5);
+            make.right.bottom.equalTo(self.contentView).offset(-5);
         }];
         [self.contentView addSubview:self.emojiImageView];
         [self.emojiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -66,7 +67,8 @@
 {
     if (!_selectView) {
         _selectView = [[UIView alloc] initWithFrame:CGRectZero];
-        _selectView.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.6];
+        _selectView.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.3];
+        _selectView.layer.cornerRadius = 10;
     }
     return _selectView;
 }

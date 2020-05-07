@@ -20,7 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 - (void)didselectWithIndex:(NSInteger)index tabBarSegmentView:(LZTabBarSegmentView *)segmentView;
-
+- (UIButton *)leftButtonOnSegmentView;
+- (UIButton *)rightButtonOnSegmentView;
 @end
 
 

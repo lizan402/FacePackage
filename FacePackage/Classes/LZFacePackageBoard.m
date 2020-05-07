@@ -181,4 +181,17 @@
     [self.faceContentView scrollToSection:index];
 }
 
+- (UIButton *)leftButtonOnSegmentView{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(leftButtonOnSegmentView)]) {
+        return [self.delegate leftButtonOnSegmentView];
+    }
+    return nil;
+}
+
+- (UIButton *)rightButtonOnSegmentView{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(rightButtonOnSegmentView)]) {
+        return [self.delegate rightButtonOnSegmentView];
+    }
+    return nil;
+}
 @end

@@ -29,20 +29,20 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self addSubview:self.leftButton];
+//        [self addSubview:self.leftButton];
         [self addSubview:self.collectionView];
         [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.leftButton.mas_right);
+            make.left.equalTo(self).offset(40);
             make.right.equalTo(self).offset(-42);
             make.top.bottom.equalTo(self);
             
         }];
-        [self addSubview:self.rightButton];
-        [self.rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self).offset(-2);
-            make.width.equalTo(@40);
-            make.top.bottom.equalTo(self);
-        }];
+//        [self addSubview:self.rightButton];
+//        [self.rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.right.equalTo(self).offset(-2);
+//            make.width.equalTo(@40);
+//            make.top.bottom.equalTo(self);
+//        }];
     }
     return self;
 }
@@ -53,24 +53,20 @@
         _faceModelArray = [self.deleagate  arrayForTabBarSegmentView:self];
     }
     [self updateSelectFaceModelWithIndex:self.selectIndex];
-   
-   
 }
 
 
 - (void)updateSelectFaceModelWithIndex:(NSInteger)index
 {
-    
     NSLog(@"updateSelectFaceModelWithIndex, === %@",@(index));
     for (NSInteger i = 0 ;i < self.faceModelArray.count; i++){
         LZFaceModel *faceModel = self.faceModelArray[i];
         if (i == index) {
              faceModel.isSelect = YES;
-         }else {
-              faceModel.isSelect = NO;
+        }else {
+             faceModel.isSelect = NO;
         }
     }
-      
 }
 
 - (UIButton *)rightButton
@@ -116,9 +112,28 @@
     if (self.faceModelArray.count > selectIndex) {
         [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:selectIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
         [self updateSelectFaceModelWithIndex:selectIndex];
-         [self.collectionView reloadData];
+        [self.collectionView reloadData];
     }
     
+}
+
+- (void)setDeleagate:(id<LZTabBarSegmentViewDelegate>)deleagate
+{
+    _deleagate = deleagate;
+    if (_deleagate && [_deleagate respondsToSelector:@selector(leftButtonOnSegmentView)]) {
+        self.leftButton = [self.deleagate leftButtonOnSegmentView];
+    }
+    [self addSubview:self.leftButton];
+    
+    if (_deleagate && [_deleagate respondsToSelector:@selector(rightButtonOnSegmentView)]) {
+        self.rightButton = [self.deleagate rightButtonOnSegmentView];
+    }
+    [self addSubview:self.rightButton];
+    [self.rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
+      make.right.equalTo(self).offset(-2);
+      make.width.equalTo(@40);
+      make.top.bottom.equalTo(self);
+   }];
 }
 
 - (UICollectionView *)collectionView

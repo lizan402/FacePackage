@@ -2,12 +2,13 @@
 //  LZFaceViewModel.m
 //  FacePackageDemo
 //
-//  Created by yongqiang li on 2020/5/4.
-//  Copyright © 2020 yongqiang li. All rights reserved.
+//  Created by zan li on 2020/5/4.
+//  Copyright © 2020 zan li. All rights reserved.
 //
 
 #import "LZFaceViewModel.h"
 #import <FacePackage/LZFaceModel.h>
+#import <FacePackage/LZFacePackageConfiguration.h>
 
 #define kBundlePathImage(resource, extension, imgName, type) ([[NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:resource withExtension:extension]] pathForResource:[NSString stringWithFormat:@"%@@2x", imgName] ofType:type] ? [[NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:resource withExtension:extension]] pathForResource:[NSString stringWithFormat:@"%@@2x", imgName] ofType:type] : [[NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:resource withExtension:extension]] pathForResource:[NSString stringWithFormat:@"%@@3x", imgName] ofType:type] ? [[NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:resource withExtension:extension]] pathForResource:[NSString stringWithFormat:@"%@@3x", imgName] ofType:type] : [[NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:resource withExtension:extension]] pathForResource:imgName ofType:type])
 
@@ -30,7 +31,6 @@
     }
     return self;
 }
-
 
 - (void)loadReource
 {
@@ -64,12 +64,23 @@
         NSMutableArray *emojisArr  = [[NSMutableArray alloc] init];
         NSArray *objArray = (NSArray*)obj;
         for (NSString *emoji in objArray) {
+            NSInteger  index = [objArray indexOfObject:emoji];
+            NSInteger  countPerPage = [LZFacePackageConfiguration shareInstance].defaultMaxRow * [LZFacePackageConfiguration shareInstance].defaultMaxCount  - 1 ;
+            if (index % countPerPage == 0 && index > 0) {//当是本页的最后一个元素时，填充删除图片。
+                LZFaceModel *deleteModel = [[LZFaceModel alloc] init];
+                deleteModel.faceType = LZFaceType_Image;
+                //deleteModel.emojiImg = @"wb_emoji_keyboard_backspace_icon";
+                NSString *emojiImg = @"bingbujiandan";
+                NSString *path =  kBundlePathImage(@"Emojis", @"bundle", emojiImg, @"png");
+                deleteModel.emojiImg = path;
+                deleteModel.emojiDescription = @"string_emoji_delete";
+                [emojisArr addObject:deleteModel];
+            }
             LZFaceModel *myFace =  [[LZFaceModel alloc] init];
             myFace.faceType = LZFaceType_Default;
             myFace.emojiName = emoji;
             myFace.emojiDescription = (NSString *)key;
             [emojisArr addObject:myFace];
-            
         }
         NSLog(@"key = %@,vaule = %@",key,obj);
         [allEmojisArr addObject:emojisArr];

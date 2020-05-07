@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "LZFaceModel.h"
+#import <UIKit/UIKit.h>
 
 #define KScreenWidth ([[UIScreen mainScreen] bounds].size.width)
 
